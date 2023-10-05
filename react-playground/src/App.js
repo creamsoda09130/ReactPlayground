@@ -1,17 +1,27 @@
 import './App.css';
 
 function MyButton() {
+  const img = {
+    alt: 'Reactのロゴ',
+    src: 'logo512.png',
+  };
   return (
     <button className="button">
-      これがボタン
+      <span className="text">これがボタン</span>
+      <img
+        className="img"
+        src={img.src}
+        alt={img.alt}
+      />
     </button>
   );
 }
 
 function App() {
+  const title = 'Welcome to My App(変数にもってる)';
   return (
     <div className="App">
-      <h1 className="title">Welcome to My App</h1>
+      <h1 className="title">{title}</h1>
       {/* TASK: ここにclassNameを付与することはできない、同じコンポーネントで違うクラスを付けたい時の書き方調査 */}
       <div className="contents">
         <MyButton></MyButton>

@@ -6,13 +6,24 @@
 }
 
 .button {
+  display: flex;
+  align-items: center;
   width: 100%;
   max-width: 300px;
+  margin: 0 auto;
   padding: 8px 24px;
   border: 1px solid #aaa;
   border-radius: 10px;
   background-color: #ffe4c4;
   cursor: pointer;
+}
+
+.text {
+  width: 100%;
+}
+
+.img {
+  width: 24px;
 }
 
 .title {
