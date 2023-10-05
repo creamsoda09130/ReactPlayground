@@ -74,7 +74,7 @@ function PokemonList() {
   );
 }
 
-function App() {
+function Home() {
   const title = 'Welcome to My App';
   const number = Math.floor(Math.random() * 100);
   const [count, setCount] = useState(0);
@@ -89,6 +89,7 @@ function App() {
     alert('クリックされたよ！');
   }
 
+  document.title = 'ホーム画面';
   return (
     <div className="App">
       <h1 className="title">{title + '←ここまでが変数'}</h1>
@@ -103,4 +104,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
