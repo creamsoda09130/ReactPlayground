@@ -1,14 +1,21 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; // react-router-domから必要なコンポーネントをインポート
 import './index.css';
 import Home from './Home';
+import TicTacToe from './TicTacToe';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.render(
   <React.StrictMode>
-    <Home />
-  </React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/tic-tac-toe" element={<TicTacToe />} />
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
