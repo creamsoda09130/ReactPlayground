@@ -1,17 +1,18 @@
 import './App.css';
 
-function OddButton() {
+function Button(props) {
   const img = {
     alt: 'Reactのロゴ',
     src: 'logo512.png',
   };
+  const buttonClass = 'button--' + props.buttonStyle;
   function handleClick() {
     alert('クリックされたよ！');
   }
 
   return (
-    <button className="button button--red" onClick={handleClick}>
-      <span className="text">数値が奇数だった場合に表示されるボタン</span>
+    <button className={`button ${buttonClass}`} onClick={handleClick}>
+      <span className="text">数値が{props.type}だった場合に表示されるボタン</span>
       <img
         className="img"
         src={img.src}
@@ -21,24 +22,15 @@ function OddButton() {
   );
 }
 
-function EvenButton() {
-  const img = {
-    alt: 'Reactのロゴ',
-    src: 'logo512.png',
-  };
-  function handleClick() {
-    alert('クリックされたよ！');
-  }
-
+function OddButton() {
   return (
-    <button className="button button--blue" onClick={handleClick}>
-      <span className="text">数値が偶数だった場合に表示されるボタン</span>
-      <img
-        className="img"
-        src={img.src}
-        alt={img.alt}
-      />
-    </button>
+    <Button buttonStyle="red" type="奇数"></Button>
+  );
+}
+
+function EvenButton() {
+  return (
+    <Button buttonStyle="blue" type="偶数"></Button>
   );
 }
 
