@@ -41,6 +41,38 @@ function Message() {
   );
 }
 
+function PokemonList() {
+  const pokemons = [
+    {
+      id: 957,
+      name: 'カヌチャン',
+      feature : '赤ちゃんみたいでかわいい',
+    },
+    {
+      id: 958,
+      name: 'ナカヌチャン',
+      feature : 'ポニーテールがかわいい',
+    },
+    {
+      id: 959,
+      name: 'デカヌチャン',
+      feature : '強くてかわいい',
+    },
+  ];
+  const pokemonItems = pokemons.map((pokemon, index) => (
+    <li key={index}>
+      <p>図鑑番号: {pokemon.id}</p>
+      <p>{pokemon.name}</p>
+      <p>素敵なところ: {pokemon.feature}</p>
+    </li>
+  ));
+  return (
+    <ul>
+      {pokemonItems}
+    </ul>
+  );
+}
+
 function App() {
   const title = 'Welcome to My App';
   const number = Math.floor(Math.random() * 100);
@@ -58,6 +90,7 @@ function App() {
         <p>{number}</p>
         {button}
         {number % 2 === 1 && <Message />}
+        <PokemonList></PokemonList>
       </div>
     </div>
   );
