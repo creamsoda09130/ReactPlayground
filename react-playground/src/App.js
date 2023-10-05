@@ -7,17 +7,12 @@ function Button(props) {
     src: 'logo512.png',
   };
   const buttonClass = 'button--' + props.buttonStyle;
-  const [count, setCount] = useState(0);
-  function handleClick() {
-    setCount(count + 1);
-    alert('クリックされたよ！');
-  }
 
   return (
-    <button className={`button ${buttonClass}`} onClick={handleClick}>
+    <button className={`button ${buttonClass}`} onClick={props.onclick}>
       <div className="text">
         <p>数値が{props.type}だった場合に表示されるボタン</p>
-        <p>押された回数 → {count}</p>
+        <p>押された回数 → {props.count}</p>
       </div>
       <img
         className="img"
@@ -28,15 +23,15 @@ function Button(props) {
   );
 }
 
-function OddButton() {
+function OddButton({ count, onclick }) {
   return (
-    <Button buttonStyle="red" type="奇数"></Button>
+    <Button buttonStyle="red" type="奇数" count={count} onclick={onclick}></Button>
   );
 }
 
-function EvenButton() {
+function EvenButton({ count, onclick }) {
   return (
-    <Button buttonStyle="blue" type="偶数"></Button>
+    <Button buttonStyle="blue" type="偶数" count={count} onclick={onclick}></Button>
   );
 }
 
@@ -82,12 +77,18 @@ function PokemonList() {
 function App() {
   const title = 'Welcome to My App';
   const number = Math.floor(Math.random() * 100);
+  const [count, setCount] = useState(0);
   let button;
   if (number % 2 === 1) {
-    button = <OddButton />;
+    button = <OddButton count={count} onclick={handleClick} />;
   } else {
-    button = <EvenButton />;
+    button = <EvenButton count={count} onclick={handleClick} />;
   }
+  function handleClick() {
+    setCount(count + 1);
+    alert('クリックされたよ！');
+  }
+
   return (
     <div className="App">
       <h1 className="title">{title + '←ここまでが変数'}</h1>
