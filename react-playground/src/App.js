@@ -34,23 +34,6 @@ function EvenButton() {
   );
 }
 
-function MyButton() {
-  const img = {
-    alt: 'Reactのロゴ',
-    src: 'logo512.png',
-  };
-  return (
-    <button className="button">
-      <span className="text">これがボタン</span>
-      <img
-        className="img"
-        src={img.src}
-        alt={img.alt}
-      />
-    </button>
-  );
-}
-
 function Message() {
   const message = 'というわけで奇数でした';
   return (
