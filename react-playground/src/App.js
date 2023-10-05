@@ -1,4 +1,5 @@
 import './App.css';
+import { useState } from 'react';
 
 function Button(props) {
   const img = {
@@ -6,13 +7,18 @@ function Button(props) {
     src: 'logo512.png',
   };
   const buttonClass = 'button--' + props.buttonStyle;
+  const [count, setCount] = useState(0);
   function handleClick() {
+    setCount(count + 1);
     alert('クリックされたよ！');
   }
 
   return (
     <button className={`button ${buttonClass}`} onClick={handleClick}>
-      <span className="text">数値が{props.type}だった場合に表示されるボタン</span>
+      <div className="text">
+        <p>数値が{props.type}だった場合に表示されるボタン</p>
+        <p>押された回数 → {count}</p>
+      </div>
       <img
         className="img"
         src={img.src}
