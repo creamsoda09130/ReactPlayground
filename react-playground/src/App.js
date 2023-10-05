@@ -5,8 +5,12 @@ function OddButton() {
     alt: 'Reactのロゴ',
     src: 'logo512.png',
   };
+  function handleClick() {
+    alert('クリックされたよ！');
+  }
+
   return (
-    <button className="button button--red">
+    <button className="button button--red" onClick={handleClick}>
       <span className="text">数値が奇数だった場合に表示されるボタン</span>
       <img
         className="img"
@@ -22,8 +26,12 @@ function EvenButton() {
     alt: 'Reactのロゴ',
     src: 'logo512.png',
   };
+  function handleClick() {
+    alert('クリックされたよ！');
+  }
+
   return (
-    <button className="button button--blue">
+    <button className="button button--blue" onClick={handleClick}>
       <span className="text">数値が偶数だった場合に表示されるボタン</span>
       <img
         className="img"
