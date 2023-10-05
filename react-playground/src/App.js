@@ -2,7 +2,7 @@ import './App.css';
 
 function MyButton() {
   return (
-    <button>
+    <button className="button">
       これがボタン
     </button>
   );
@@ -11,8 +11,9 @@ function MyButton() {
 function App() {
   return (
     <div className="App">
-      <div>
-        <h1>Welcome to My App</h1>
+      <h1 className="title">Welcome to My App</h1>
+      {/* TASK: ここにclassNameを付与することはできない、同じコンポーネントで違うクラスを付けたい時の書き方調査 */}
+      <div className="contents">
         <MyButton></MyButton>
       </div>
     </div>
