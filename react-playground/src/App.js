@@ -18,10 +18,10 @@ function MyButton() {
 }
 
 function App() {
-  const title = 'Welcome to My App(変数にもってる)';
+  const title = 'Welcome to My App';
   return (
     <div className="App">
-      <h1 className="title">{title}</h1>
+      <h1 className="title">{title + '←ここまでが変数'}</h1>
       {/* TASK: ここにclassNameを付与することはできない、同じコンポーネントで違うクラスを付けたい時の書き方調査 */}
       <div className="contents">
         <MyButton></MyButton>
