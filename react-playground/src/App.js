@@ -74,11 +74,7 @@ function App() {
       <div className="contents">
         <p>{number}</p>
         {button}
-        {number % 2 === 1 ? (
-          <Message />
-        ) : (
-          <p>[ここは何も記載したくない]</p>
-        )}
+        {number % 2 === 1 && <Message />}
       </div>
     </div>
   );
