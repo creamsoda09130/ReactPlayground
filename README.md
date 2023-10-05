@@ -6,6 +6,9 @@
 **目的:** 未経験エンジニアが開発を始めるための環境を整える。
 
 **手順:**
+＊ 1,2は実施済みのため3からやった
+
+
 1. Homebrewのインストール (もし未インストールの場合)
    ```bash
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
