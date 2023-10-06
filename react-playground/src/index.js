@@ -8,12 +8,18 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/tic-tac-toe" element={<TicTacToe />} />
-      </Routes>
-    </BrowserRouter>
+    <header className="header">
+      <img className="header__logo" src="logo512.png" alt="Reactのロゴ" />
+      <p className="header__title">React勉強用</p>
+    </header>
+    <main>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/tic-tac-toe" element={<TicTacToe />} />
+        </Routes>
+      </BrowserRouter>
+    </main>
   </React.StrictMode>,
   document.getElementById('root')
 );
