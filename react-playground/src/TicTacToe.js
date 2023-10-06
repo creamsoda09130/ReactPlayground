@@ -1,4 +1,5 @@
 import './TicTacToe.css';
+import Heading from './component/heading';
 import { useState } from 'react';
 
 function Square({ value, onSquareClick }) {
@@ -94,14 +95,17 @@ export default function TicTacToe() {
   });
 
   return (
-    <div className="game">
-      <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+    <>
+      <Heading text="三目並べ" />
+      <div className="game">
+        <div className="game-board">
+          <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        </div>
+        <div className="game-info">
+          <ol>{moves}</ol>
+        </div>
       </div>
-      <div className="game-info">
-        <ol>{moves}</ol>
-      </div>
-    </div>
+    </>
   );
 }
 

@@ -1,4 +1,5 @@
 import './Home.css';
+import Heading from './component/heading';
 import { useState } from 'react';
 
 function Button(props) {
@@ -91,16 +92,18 @@ function Home() {
 
   document.title = 'ホーム画面';
   return (
-    <div className="App">
-      <h1 className="title">{title + '←ここまでが変数'}</h1>
-      {/* TASK: ここにclassNameを付与することはできない、同じコンポーネントで違うクラスを付けたい時の書き方調査 */}
-      <div className="contents">
-        <p>{number}</p>
-        {button}
-        {number % 2 === 1 && <Message />}
-        <PokemonList></PokemonList>
+    <>
+      <Heading text="ホーム画面" />
+      <div className="App">
+        <h2 className="title">{title + '←ここまでが変数'}</h2>
+        <div className="contents">
+          <p>{number}</p>
+          {button}
+          {number % 2 === 1 && <Message />}
+          <PokemonList></PokemonList>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
