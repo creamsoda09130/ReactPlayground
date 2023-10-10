@@ -1,7 +1,7 @@
 import './Todo.css';
 import Heading from './component/heading';
 
-function TodoItem({title, contents, isDone}) {
+function TodoItem({ title, contents, isDone }) {
   function toggleCheck(e) {
     let target = e.target;
     if (e.target.tagName !== 'LI') {
@@ -15,16 +15,8 @@ function TodoItem({title, contents, isDone}) {
   }
 
   return (
-    <li
-      className={`todo-list-item ${isDone ? 'todo-list-item--checked': ''}`}
-      onClick={toggleCheck}
-    >
-      <input
-        className="todo-check"
-        type="checkbox"
-        name="isDone"
-        defaultChecked={isDone}
-      />
+    <li className={`todo-list-item ${isDone ? 'todo-list-item--checked' : ''}`} onClick={toggleCheck}>
+      <input className="todo-check" type="checkbox" name="isDone" defaultChecked={isDone} />
       <div className="todo-contents">
         <p className="todo-title">{title}</p>
         <p className="todo-detail" dangerouslySetInnerHTML={{ __html: contents }}></p>
@@ -33,7 +25,7 @@ function TodoItem({title, contents, isDone}) {
   );
 }
 
-function TodoList () {
+function TodoList() {
   const todos = [
     {
       title: '寝る',
@@ -51,21 +43,21 @@ function TodoList () {
       isDone: false,
     },
   ];
-  const todoItems = todos.map((todo, index) => (
-    <TodoItem key={index} title={todo.title} contents={todo.contents} isDone={todo.isDone} />
-  ));
 
+  document.title = 'TODOリスト作ってみた';
   return (
     <ul className="todo-list">
-      {todoItems}
+      {todos.map((todo, index) => (
+        <TodoItem key={index} title={todo.title} contents={todo.contents} isDone={todo.isDone} />
+      ))}
     </ul>
-);
+  );
 }
 
 export default function Todo() {
   return (
     <>
-    <Heading text="TODOリスト" />
+      <Heading text="TODOリスト" />
       <div className="todo">
         <h2>やること一覧</h2>
         <TodoList />
@@ -73,4 +65,3 @@ export default function Todo() {
     </>
   );
 }
-
