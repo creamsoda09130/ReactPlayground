@@ -53,7 +53,7 @@ export default function Api() {
       {errorMessage && <p>{errorMessage}</p>}
     {data && data.weather && (
       <div className="api-section">
-        <h2 className="weather-title">{data.name}の天気</h2>
+        <h2 className="weather-title">【Open Weather API】{data.name}の天気</h2>
         <p className="weather-update-date">最終更新日時: {formattedDt}</p>
         <div className="weather-detail">
           <img className="weather-detail__icon" src={imageUrl} alt="天気のアイコン" />
