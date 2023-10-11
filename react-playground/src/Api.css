@@ -1,0 +1,52 @@
+.api-section {
+  text-align: center;
+}
+
+.weather-title {
+  margin: 0;
+}
+
+.weather-update-date {
+  margin: 0;
+  font-size: 12px;
+  text-align: right;
+}
+
+.weather-detail {
+  margin-top: 24px;
+  line-height: 1;
+}
+
+.weather-detail__icon {
+  width: 50%;
+  max-width: 100px;
+}
+
+.weather-detail__description {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.weather-detail-content {
+  margin: 0;
+}
+
+.weather-detail-content:nth-of-type(n+2) {
+  margin-top: 16px;
+}
+
+.weather-detail-content__text {
+  font-weight: 700;
+}
+
+.weather-detail-content__text:nth-of-type(n+2) {
+  margin-left: 16px;
+}
+
+.weather-detail-content__text--blue {
+  color: #3b3bff;
+}
+
+.weather-detail-content__text--red {
+  color: #ff3b3b;
+}

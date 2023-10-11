@@ -13,9 +13,8 @@ code {
 }
 
 main {
-  padding-top: 100px;
-  padding-bottom: 40px;
-  max-width: 1024px;
+  padding: 100px 24px 40px;
+  max-width: calc(1024px + 24px * 2);
   margin: 0 auto;
 }
 
