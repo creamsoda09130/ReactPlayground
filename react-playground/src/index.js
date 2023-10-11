@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; // react-router-domから必要なコンポーネントをインポート
 import './index.css';
+import Api from './Api';
 import Home from './Home';
 import TicTacToe from './TicTacToe';
 import Todo from './Todo';
@@ -17,6 +18,7 @@ ReactDOM.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/api" element={<Api />} />
           <Route path="/tic-tac-toe" element={<TicTacToe />} />
           <Route path="/todo" element={<Todo />} />
         </Routes>
