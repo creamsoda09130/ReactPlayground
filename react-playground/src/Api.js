@@ -7,9 +7,13 @@ const LAT = '35.658034';
 const LON = '139.701636';
 function Weather() {
   // ! useEffect内でそのまま変数に入れても値が更新されちゃうのでuseSateで押さえておくイメージ??
-  let [data, setData] = useState(null);
-  let [errorMessage, setErrorMessage] = useState('');
-
+  const [state, setState] = useState({
+    data: null,
+    errorMessage: '',
+    formattedDt: '',
+    imageUrl: ''
+  });
+  
   useEffect(() => {
     const fetchData = async() => {
       try {
@@ -17,51 +21,51 @@ function Weather() {
         if (response.ok) {
           // ! ここでもawaitかけてあげることでPendingのままjson化されることがない
           const data = await response.json();
-          setData(data);
+          setState(prevState => ({ ...prevState, data }));
+
+          // 現在時間をミリ秒から表示
+          if (data && data.dt) {
+            const dt = data.dt;
+            const dtMilliseconds = dt * 1000;
+            const dtJapan = new Date(dtMilliseconds);
+            // フォーマットして出力
+            setState(prevState => ({ ...prevState, formattedDt: `${(dtJapan.getMonth() + 1).toString().padStart(2, '0')}月${dtJapan.getDate().toString().padStart(2, '0')}日 ${dtJapan.getHours().toString().padStart(2, '0')}時${dtJapan.getMinutes().toString().padStart(2, '0')}分` }));
+          }
+
+          setState(prevState => ({ ...prevState, imageUrl: data && data.weather && `https://openweathermap.org/img/w/${data.weather[0].icon}.png` }));
         } else {
           const error = await response.json();
           if (error.cod === '400') {
-            setErrorMessage('緯度か経度がミスってるかもです');
+            setState(prevState => ({ ...prevState, errorMessage: '緯度か経度がミスってるかもです' }));
           } else if (error.cod === '401') {
-            setErrorMessage('API Keyがミスってるんじゃない??きっと');
+            setState(prevState => ({ ...prevState, errorMessage: 'API Keyがミスってるんじゃない??きっと' }));
           } else {
-            setErrorMessage('なんらかのエラーが発生しました' + error.message);
+            setState(prevState => ({ ...prevState, errorMessage: 'なんらかのエラーが発生しました' + error.message }));
           }
         }
       } catch(error) {
-        setErrorMessage('天気の取得に失敗しました' + error);
+        setState(prevState => ({ ...prevState, errorMessage: '天気の取得に失敗しました' + error }));
       }
     };
     fetchData();
   }, []);
 
-  let formattedDt;
-  let imageUrl;
-  // 現在時間をミリ秒から表示
-  if (data && data.dt) {
-    const dt = data.dt;
-    const dtMilliseconds = dt * 1000;
-    const dtJapan = new Date(dtMilliseconds);
-    // フォーマットして出力
-    formattedDt = `${(dtJapan.getMonth() + 1).toString().padStart(2, '0')}月${dtJapan.getDate().toString().padStart(2, '0')}日 ${dtJapan.getHours().toString().padStart(2, '0')}時${dtJapan.getMinutes().toString().padStart(2, '0')}分`;
-  }
-  imageUrl = data && data.weather && `https://openweathermap.org/img/w/${data.weather[0].icon}.png`;
   return (
     <div className="api-section">
-      {errorMessage && <p>{errorMessage}</p>}
-  {data && data.weather && (
+      {state.errorMessage && <p>{state.errorMessage}</p>}
+  {state.data && state.data.weather && (
     <>
-      <h2 className="api-section__title">【Open Weather API】{data.name}の天気</h2>
-      <p className="weather-update-date">最終更新日時: {formattedDt}</p>
+      <h2 className="api-section__title">【Open Weather API】{state.data.name}の天気</h2>
+      <p className="weather-update-date">最終更新日時: {state.formattedDt}</p>
       <div className="weather-detail">
-        <img className="weather-detail__icon" src={imageUrl} alt="天気のアイコン" />
-        <p className="weather-detail__description">{data.weather[0].description}</p>
+        <img className="weather-detail__icon" src={state.imageUrl} alt="天気のアイコン" />
+        <p className="weather-detail__description">{state.data.weather[0].description}</p>
         <p className="weather-detail-content">
-          <span className="weather-detail-content__text weather-detail-content__text--blue">最低気温: {data.main.temp_min}度</span>
-          <span className="weather-detail-content__text weather-detail-content__text--red">最高気温: {data.main.temp_max}度</span>
+          <span className="weather-detail-content__text weather-detail-content__text--blue">最低気温: {state.data.main.temp_min}度</span>
+          <span className="weather-detail-content__text weather-detail-content__text--red">最高気温: {state.data.main.temp_max}度</span>
         </p>
-        <p className="weather-detail-content">※ 体感だと{data.main.temp}度くらいらしい！</p>
-        <p className="weather-detail-content">湿度: {data.main.humidity}％</p>
+        <p className="weather-detail-content">※ 体感だと{state.data.main.temp}度くらいらしい！</p>
+        <p className="weather-detail-content">湿度: {state.data.main.humidity}％</p>
       </div>
     </>
   )}
@@ -166,6 +170,7 @@ function Pokemon() {
     </div>
   );
 }
+
 document.title = 'API接続テスト';
 export default function Api() {
   return (
