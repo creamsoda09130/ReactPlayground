@@ -5,6 +5,7 @@ import Heading from './component/heading';
 const API_KEY = '5a9599461b045d355aad543237d49d40';
 const LAT = '35.658034';
 const LON = '139.701636';
+
 function Weather() {
   // ! useEffect内でそのまま変数に入れても値が更新されちゃうのでuseSateで押さえておくイメージ??
   const [state, setState] = useState({
@@ -13,7 +14,18 @@ function Weather() {
     formattedDt: '',
     imageUrl: ''
   });
-  
+
+  const getErrorMessage = (error) => {
+    switch (error.cod) {
+      case '400':
+        return '緯度か経度がミスってるかもです';
+      case '401':
+        return 'API Keyがミスってるんじゃない??きっと';
+      default:
+        return 'なんらかのエラーが発生しました' + error.message;
+    }
+  };
+
   useEffect(() => {
     const fetchData = async() => {
       try {
@@ -21,27 +33,18 @@ function Weather() {
         if (response.ok) {
           // ! ここでもawaitかけてあげることでPendingのままjson化されることがない
           const data = await response.json();
-          setState(prevState => ({ ...prevState, data }));
-
-          // 現在時間をミリ秒から表示
+          let formattedDt = '';
           if (data && data.dt) {
-            const dt = data.dt;
-            const dtMilliseconds = dt * 1000;
+            // 現在時間をミリ秒から表示
+            const dtMilliseconds = data.dt * 1000;
             const dtJapan = new Date(dtMilliseconds);
-            // フォーマットして出力
-            setState(prevState => ({ ...prevState, formattedDt: `${(dtJapan.getMonth() + 1).toString().padStart(2, '0')}月${dtJapan.getDate().toString().padStart(2, '0')}日 ${dtJapan.getHours().toString().padStart(2, '0')}時${dtJapan.getMinutes().toString().padStart(2, '0')}分` }));
+            formattedDt = `${(dtJapan.getMonth() + 1).toString().padStart(2, '0')}月${dtJapan.getDate().toString().padStart(2, '0')}日 ${dtJapan.getHours().toString().padStart(2, '0')}時${dtJapan.getMinutes().toString().padStart(2, '0')}分`;
           }
-
-          setState(prevState => ({ ...prevState, imageUrl: data && data.weather && `https://openweathermap.org/img/w/${data.weather[0].icon}.png` }));
+          const imageUrl = data && data.weather ? `https://openweathermap.org/img/w/${data.weather[0].icon}.png` : '';
+          setState({ data, formattedDt, imageUrl, errorMessage: '' });
         } else {
           const error = await response.json();
-          if (error.cod === '400') {
-            setState(prevState => ({ ...prevState, errorMessage: '緯度か経度がミスってるかもです' }));
-          } else if (error.cod === '401') {
-            setState(prevState => ({ ...prevState, errorMessage: 'API Keyがミスってるんじゃない??きっと' }));
-          } else {
-            setState(prevState => ({ ...prevState, errorMessage: 'なんらかのエラーが発生しました' + error.message }));
-          }
+          setState(prevState => ({ ...prevState, errorMessage: getErrorMessage(error) }));
         }
       } catch(error) {
         setState(prevState => ({ ...prevState, errorMessage: '天気の取得に失敗しました' + error }));
@@ -74,46 +77,59 @@ function Weather() {
 }
 
 const pokemonId = Math.floor(Math.random() * 1017) + 1;
+
 function Pokemon() {
-  let [data, setData] = useState(null);
-  let [images, setImages] = useState(null);
-  let [errorMessage, setErrorMessage] = useState('');
+  const [data, setData] = useState(null);
+  const [images, setImages] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const getErrorMessage = (error) => {
+    switch (error.cod) {
+      case '404':
+        return 'idがミスってるかもです';
+      case '401':
+        return 'API Keyがミスってるんじゃない??きっと';
+      default:
+        return 'なんらかのエラーが発生しました' + error.message;
+    }
+  };
+
   useEffect(() => {
     const fetchData = async() => {
       try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`);
         if (response.ok) {
-          // ! ここでもawaitかけてあげることでPendingのままjson化されることがない
-          const data = await response.json();
-          setData(data);
+          const rawData = await response.json();
+          if (rawData && rawData.names) {
+            const japaneseName = rawData.names.filter(name => name.language.name === 'ja-Hrkt')[0].name;
+            const japaneseDescriptionArray = rawData.flavor_text_entries.filter(text => text.language.name === 'ja-Hrkt');
+            const japaneseDescription = japaneseDescriptionArray[japaneseDescriptionArray.length - 1].flavor_text;
+            const japaneseGenera = rawData.genera.filter(genus => genus.language.name === 'ja-Hrkt')[0].genus;
+            const pokemon = {
+              id: rawData.id,
+              name: japaneseName,
+              genera: japaneseGenera,
+              description: japaneseDescription,
+              evolution: rawData.evolution_chain,
+            };
+            setData(pokemon);
+          }
         } else {
           const error = await response.json();
-          if (error.cod === '404') {
-            setErrorMessage('idがミスってるかもです');
-          } else if (error.cod === '401') {
-            setErrorMessage('API Keyがミスってるんじゃない??きっと');
-          } else {
-            setErrorMessage('なんらかのエラーが発生しました' + error.message);
-          }
+          setErrorMessage(getErrorMessage(error));
         }
-        const image = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
-        if (image.ok) {
-          // ! ここでもawaitかけてあげることでPendingのままjson化されることがない
-          const imageData = await image.json();
+
+        const imageResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+        if (imageResponse.ok) {
+          const imageData = await imageResponse.json();
           const images = {
             default: imageData.sprites.front_default,
             shiny: imageData.sprites.front_shiny
           }
           setImages(images);
         } else {
-          const error = await response.json();
-          if (error.cod === '404') {
-            setErrorMessage('idがミスってるかもです');
-          } else if (error.cod === '401') {
-            setErrorMessage('API Keyがミスってるんじゃない??きっと');
-          } else {
-            setErrorMessage('なんらかのエラーが発生しました' + error.message);
-          }
+          const error = await imageResponse.json();
+          setErrorMessage(getErrorMessage(error));
         }
       } catch(error) {
         setErrorMessage('ポケモンの取得に失敗しました' + error);
@@ -172,6 +188,7 @@ function Pokemon() {
 }
 
 document.title = 'API接続テスト';
+
 export default function Api() {
   return (
     <>
@@ -181,5 +198,3 @@ export default function Api() {
     </>
   );
 }
-
-
